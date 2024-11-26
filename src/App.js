@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './components/home';
-import CreateClient from './components/CreateClient';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SidebarLayout from './components/SidebarLayout';
+import CreateClient from './components/cliente/CreateClient';
 import './components/css/App.css';
+import Dashboard from './components/Dashboard';
+import ListClients from './components/cliente/ListClients';
+import ClientDetails from './components/detalle_cliente/ClientDetails';
+import ClientDetailsCreate from './components/detalle_cliente/ClientDetailsCreate';
+import EditClient from './components/cliente/EditClient';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -20,26 +25,17 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <header className="app-header">
-          <h1>Gestión de Clientes</h1>
-          <p className="api-message">{message}</p>
-        </header>
-
-        <nav className="app-nav">
-          <Link to="/" className="nav-link">Inicio</Link>
-          <Link to="/create-client" className="nav-link">Crear Cliente</Link>
-        </nav>
-
-        <main className="app-content">
-          <Routes>
-            <Route path="/" element={<Home message={message} />} />
-            <Route path="/create-client" element={<CreateClient />} />
-          </Routes>
-        </main>
-      </div>
+      <SidebarLayout>
+        <Routes>
+          <Route path="/dasboard" element={<Dashboard />} />
+          <Route path="/list-client" element={<ListClients message={message} />} />
+          <Route path="/create-client" element={<CreateClient />} />
+          <Route path="/clientes/:id" element={<ClientDetails />} />
+          <Route path="/detalle-cliente/create" element={<ClientDetailsCreate />} />
+          <Route path="/clientes/editar/:id" element={<EditClient />} />
+        </Routes>
+      </SidebarLayout>
     </Router>
   );
 }
-
 export default App;

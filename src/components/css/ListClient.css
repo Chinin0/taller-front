@@ -1,0 +1,133 @@
+/* Home.css */
+.home-container {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.home-title {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.loading-message,
+.no-clientes-message {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
+}
+
+.error-message {
+    font-size: 16px;
+    color: #d9534f;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.clientes-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cliente-item {
+    font-size: 18px;
+    color: #555;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.cliente-item:last-child {
+    border-bottom: none;
+}
+
+.cliente-item:hover {
+    background-color: #f0f0f0;
+}
+
+
+.clientes-table-container {
+    margin-top: 20px;
+    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+}
+
+.clientes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Centra la tabla */
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clientes-table th, .clientes-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.clientes-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.clientes-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.clientes-table tr:hover {
+    background-color: #f1f1f1; /* Efecto hover */
+}
+
+.clientes-table td button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background-color: #28a745;
+    color: white;
+    margin-right: 8px;
+}
+
+.btn-edit:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.no-clientes-message {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+}
+
+/* para que el nombre tenga estilo y pueda direccionar a detalles */
+.cliente-link {
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.cliente-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
