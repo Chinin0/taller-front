@@ -29,7 +29,7 @@ const SidebarLayout = ({ children }) => {
         { 
             text: 'Inicio', 
             icon: <HomeIcon />, 
-            path: '/' 
+            path: '/dasboard' 
         },
         { 
             text: 'Clientes', 
@@ -38,6 +38,27 @@ const SidebarLayout = ({ children }) => {
                 { text: 'Listar Clientes', path: '/list-client', icon: <FormatListBulletedIcon /> },
                 { text: 'Crear Cliente', path: '/create-client', icon: <PersonAddIcon /> },
             ],
+        },
+        { 
+            text: 'Prendas', 
+            icon: <PeopleIcon />, 
+            children: [
+                { text: 'Lista de prendas', path: '/prendas', icon: <FormatListBulletedIcon /> },
+                { text: 'Registrar prendas', path: '/prendas/create', icon: <PersonAddIcon /> },
+            ],
+        },
+        { 
+            text: 'Creditos', 
+            icon: <PeopleIcon />, 
+            children: [
+                { text: 'Ver Creditos', path: '/creditos', icon: <FormatListBulletedIcon /> },
+                { text: 'Registrar Credito', path: '/creditos/create', icon: <PersonAddIcon /> },
+            ],
+        },
+        { 
+            text: 'Solicitud de Credito', 
+            icon: <PeopleIcon />, 
+            path: '/solicitud' 
         },
     ];
 

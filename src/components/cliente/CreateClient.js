@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Importamos useNavigate para redirección
+import SidebarLayout from '../SidebarLayout';
 
 function CreateClient() {
   const [nombre, setNombre] = useState('');
@@ -26,88 +27,99 @@ function CreateClient() {
     }
 
     try {
-      await axios.post('http://localhost:8000/api/clientes/create', {
-        nombre,
-        apellidos,
-        fecha_nacimiento: fechaNacimiento,
-        telefono,
-        genero,
-      });
+      const token = localStorage.getItem('token'); // Obtén el token de localStorage
+      await axios.post(
+        'http://localhost:8000/api/clientes/create',
+        {
+          nombre,
+          apellidos,
+          fecha_nacimiento: fechaNacimiento,
+          telefono,
+          genero,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`, // Incluye el token en los encabezados
+          },
+        }
+      );
       setSuccessMessage("Cliente creado exitosamente.");
       setNombre('');
       setApellidos('');
       setFechaNacimiento('');
       setTelefono('');
       setGenero('');
-      setTimeout(() => navigate('/list-client'), 1500); // Redirigimos tras 1.5 segundos
+      setTimeout(() => navigate('/list-client'), 1500);
     } catch (err) {
       console.error("Error al crear cliente:", err);
       setError(err.response?.data?.message || "No se pudo crear el cliente. Revisa los datos ingresados.");
     } finally {
-      setLoading(false); // Desactivamos el estado de carga
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <nav className="app-nav">
-        <Link to="/list-client" className="nav-link">Lista de Clientes</Link>
-        <Link to="/create-client" className="nav-link">Crear Cliente</Link>
-      </nav>
-      <h2 style={styles.title}>Crear Cliente</h2>
+    <SidebarLayout>
+      <div style={styles.container}>
+        <nav className="app-nav">
+          <Link to="/list-client" className="nav-link">Lista de Clientes</Link>
+          <Link to="/create-client" className="nav-link">Crear Cliente</Link>
+        </nav>
+        <h2 style={styles.title}>Crear Cliente</h2>
 
-      {error && <p style={styles.error}>{error}</p>}
-      {successMessage && <p style={styles.success}>{successMessage}</p>}
+        {error && <p style={styles.error}>{error}</p>}
+        {successMessage && <p style={styles.success}>{successMessage}</p>}
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <label style={styles.label}>Nombre:</label>
-        <input
-          type="text"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          style={styles.input}
-          required
-        />
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <label style={styles.label}>Nombre:</label>
+          <input
+            type="text"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            style={styles.input}
+            required
+          />
 
-        <label style={styles.label}>Apellidos:</label>
-        <input
-          type="text"
-          value={apellidos}
-          onChange={(e) => setApellidos(e.target.value)}
-          style={styles.input}
-          required
-        />
+          <label style={styles.label}>Apellidos:</label>
+          <input
+            type="text"
+            value={apellidos}
+            onChange={(e) => setApellidos(e.target.value)}
+            style={styles.input}
+            required
+          />
 
-        <label style={styles.label}>Fecha de Nacimiento:</label>
-        <input
-          type="date"
-          value={fechaNacimiento}
-          onChange={(e) => setFechaNacimiento(e.target.value)}
-          style={styles.input}
-          required
-        />
+          <label style={styles.label}>Fecha de Nacimiento:</label>
+          <input
+            type="date"
+            value={fechaNacimiento}
+            onChange={(e) => setFechaNacimiento(e.target.value)}
+            style={styles.input}
+            required
+          />
 
-        <label style={styles.label}>Teléfono:</label>
-        <input
-          type="tel"
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
-          style={styles.input}
-          required
-        />
+          <label style={styles.label}>Teléfono:</label>
+          <input
+            type="tel"
+            value={telefono}
+            onChange={(e) => setTelefono(e.target.value)}
+            style={styles.input}
+            required
+          />
 
-        <label style={styles.label}>Género:</label>
-        <select value={genero} onChange={(e) => setGenero(e.target.value)} style={styles.select} required>
-          <option value="">Selecciona</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
-        </select>
+          <label style={styles.label}>Género:</label>
+          <select value={genero} onChange={(e) => setGenero(e.target.value)} style={styles.select} required>
+            <option value="">Selecciona</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
 
-        <button type="submit" style={styles.button} disabled={loading}>
-          {loading ? "Creando..." : "Crear Cliente"}
-        </button>
-      </form>
-    </div>
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? "Creando..." : "Crear Cliente"}
+          </button>
+        </form>
+      </div>
+    </SidebarLayout>
   );
 }
 

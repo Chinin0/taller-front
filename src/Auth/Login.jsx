@@ -26,7 +26,7 @@ const Login = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("first_name", first_name);
             localStorage.setItem("email" , email);
-            navigate("/welcome"); // Redirigir a la vista Welcome
+            navigate("/list-client"); // Redirigir a la vista Welcome
         } catch (err) {
             setError(err.response?.data?.error || "Error al iniciar sesión"); // Mostrar mensaje de error genérico
         }

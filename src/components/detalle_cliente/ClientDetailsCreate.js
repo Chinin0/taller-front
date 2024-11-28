@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Importamos useNavigate para redirección
+import SidebarLayout from '../SidebarLayout';
 
 function CreateClientDetails() {
     const [detalle, setDetalle] = useState('');
@@ -33,7 +34,7 @@ function CreateClientDetails() {
                 fecha_inicio_ocupacion: fechaInicio,
                 total_ingresos,
                 tipo_ocupacion,
-                fk_cliente,
+                cliente: fk_cliente,
             });
             setSuccessMessage("Cliente creado exitosamente.");
 
@@ -47,6 +48,7 @@ function CreateClientDetails() {
     };
 
     return (
+        <SidebarLayout>
         <div style={styles.container}>
             <nav className="app-nav">
                 <Link to="/list-client" className="nav-link">Lista de Clientes</Link>
@@ -116,6 +118,7 @@ function CreateClientDetails() {
                 </button>
             </form>
         </div>
+        </SidebarLayout>
     );
 }
 

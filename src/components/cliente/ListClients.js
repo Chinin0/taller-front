@@ -5,13 +5,16 @@ import { Link } from 'react-router-dom';
 import './../css/ListClient.css'; // Archivo CSS para estilos
 import './../css/ClientDetails.css';
 import { useNavigate } from 'react-router-dom';
+import SidebarLayout from '../SidebarLayout';
 
 function ListClients() {
     const [clientes, setClientes] = useState([]); // Inicializado como array vacío
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    
+    const token = localStorage.getItem('token'); // Recuperar el token almacenado
+
+
     const handleEditClick = (id) => {
         navigate(`/clientes/editar/${id}`);
     };
@@ -19,85 +22,113 @@ function ListClients() {
         navigate('/detalle-cliente/create');
     };
 
-    useEffect(() => {
-        axios.get('http://localhost:8000/api/clientes/')  // ruta del endpoint en Django
-            .then(response => {
-                setClientes(response.data); // Guardamos la lista de clientes en el estado
-                setLoading(false);
-            })
-            .catch(error => {
-                setError(error.message || 'Ocurrió un error desconocido');
-                setLoading(false);
-            });
-    }, []);
+    const handleDelete = async (id) => {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
+            try {
+                const token = localStorage.getItem('token');
+                await axios.delete(`http://localhost:8000/api/clientes/delete/${id}`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+                // Actualizar el estado para reflejar la eliminación
+                setClientes((prevClientes) => prevClientes.filter(cliente => cliente.id !== id));
+            } catch (error) {
+                console.error("Error al eliminar cliente:", error);
+                alert('No se pudo eliminar el cliente. Intenta nuevamente.');
+            }
+        }
+    };
 
+
+    useEffect(() => {
+        const fetchClientes = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:8000/api/clientes', {
+                    headers: {
+                        Authorization: `Token ${token}` // Asegúrate de pasar un token válido
+                    },
+                });
+                setClientes(response.data);
+            } catch (error) {
+                setError(error.response?.data?.detail || 'Ocurrió un error desconocido');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchClientes();
+    }, [token]);
 
     return (
-        <div style={styles.container}>
-            <nav className="app-nav">
-                <Link to="/list-client" className="nav-link">Lista_Clientes</Link>
-                <Link to="/create-client" className="nav-link">Crear Cliente</Link>
-            </nav>
-            <h1 className="home-title">Lista de Clientes</h1>
+        <SidebarLayout>
+            <div style={styles.container}>
+                <nav className="app-nav">
+                    <Link to="/list-client" className="nav-link">Lista_Clientes</Link>
+                    <Link to="/create-client" className="nav-link">Crear Cliente</Link>
+                </nav>
+                <h1 className="home-title">Lista de Clientes</h1>
 
-            {loading && <p className="loading-message">Cargando clientes...</p>}
+                {loading && <p className="loading-message">Cargando clientes...</p>}
 
-            {error && (
-                <div className="error-message">
-                    <p>Error: {error}</p>
-                </div>
-            )}
+                {error && (
+                    <div className="error-message">
+                        <p>Error: {error}</p>
+                    </div>
+                )}
 
-            {!loading && !error && clientes.length > 0 && (
-                <div className="clientes-table-container">
-                    <table className="clientes-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {clientes.map((cliente) => (
-                                <tr key={cliente.id}>
-                                    <td>
-                                        <Link
-                                            to={`/clientes/${cliente.id}`} // Ruta dinámica hacia la vista de detalles
-                                            className="cliente-link"
-                                        >
-                                            {cliente.nombre} {cliente.apellidos}
-                                        </Link>
-                                    </td>
-                                    <td>{cliente.telefono || 'No disponible'}</td>
-                                    <td>
-                                        <button
-                                            className="btn-edit"
-                                            onClick={() => handleEditClick(cliente.id)}
-                                        >
-                                            Editar
-                                        </button>
-                                        <button className="btn-delete" onClick={() => alert(`Eliminar cliente: ${cliente.nombre} ${cliente.apellidos}`)}>
-                                            Eliminar
-                                        </button>
-                                        <button
-                                            className="btn-add-details"
-                                            onClick={handleAddDetails}
-                                        >
-                                            Agregar Detalles
-                                        </button>
-                                    </td>
+                {!loading && !error && clientes.length > 0 && (
+                    <div className="clientes-table-container">
+                        <table className="clientes-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Teléfono</th>
+                                    <th>Acción</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                            </thead>
+                            <tbody>
+                                {clientes.map((cliente) => (
+                                    <tr key={cliente.id}>
+                                        <td>
+                                            <Link
+                                                to={`/clientes/${cliente.id}`} // Ruta dinámica hacia la vista de detalles
+                                                className="cliente-link"
+                                            >
+                                                {cliente.nombre} {cliente.apellidos}
+                                            </Link>
+                                        </td>
+                                        <td>{cliente.telefono || 'No disponible'}</td>
+                                        <td>
+                                            <button
+                                                className="btn-edit"
+                                                onClick={() => handleEditClick(cliente.id)}
+                                            >
+                                                Editar
+                                            </button>
+                                            <button className="btn-delete" onClick={() => handleDelete(cliente.id)}>
+                                                Eliminar
+                                            </button>
 
-            {!loading && !error && clientes.length === 0 && (
-                <p className="no-clientes-message">No hay clientes disponibles.</p>
-            )}
-        </div>
+                                            <button
+                                                className="btn-add-details"
+                                                onClick={handleAddDetails}
+                                            >
+                                                Agregar Detalles
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                {!loading && !error && clientes.length === 0 && (
+                    <p className="no-clientes-message">No hay clientes disponibles.</p>
+                )}
+            </div>
+        </SidebarLayout>
     );
 }
 const styles = {
