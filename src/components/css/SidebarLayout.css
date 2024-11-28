@@ -1,0 +1,51 @@
+/* sidebar */
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    color: white;
+  }
+  
+  .sidebar-inner {
+    padding: 20px;
+  }
+  
+  .sidebar .list-unstyled {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .sidebar .nav-link {
+    color: white;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .sidebar .nav-link:hover {
+    background-color: #575757;
+  }
+  
+  /* content area */
+  .content-wrapper {
+    margin-left: 250px;
+    padding: 20px;
+  }
+  
+  .content-header h1 {
+    font-size: 2em;
+  }
+  
+  /* SidebarLayout.css */
+.active-item {
+  background-color: #e0f7fa; /* Resaltar ítem activo */
+  color: #00796b; /* Color de texto */
+  font-weight: bold;
+}
+
+.active-item:hover {
+  background-color: #b2dfdb;
+}

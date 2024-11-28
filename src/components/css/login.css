@@ -1,0 +1,74 @@
+.container-cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 35%;
+}
+.login-box{
+    background-color: white;
+    padding: 20px;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    border-radius: 8px;
+    width: 300%;
+}
+
+.login-form .form-control{
+    background-color:whitesmoke;
+    border: none;
+    box-shadow: 0 0 10px ,rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    box-shadow: inset 3px 3px 10px #c5c5c5, inset -3px -3px 10px #ffffff;
+}
+
+.btn-register{
+    width: 100%;
+    color: #31511E;
+    border-radius: 0.5em;
+    background: #ecebeb;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+    border: none;
+    border-radius: 20px;
+    height: 35px;
+}
+.btn:active {
+    color: #dad5d5;
+    box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+    border: none;
+  }
+  
+
+.login-text .login-h2{
+    color: #31511E;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.login-form .btn-session{
+    background-color: #31511E;
+    color: white;
+    width: 100%;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    transition: all 0.2s;
+}
+
+.btn-session:active {
+    color: #ced0cf;
+    box-shadow: inset 4px 4px 12px #b5b4b4, inset -4px -4px 12px #b5b4b4;
+    border: none;
+  }
+
+
+
+
